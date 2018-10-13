@@ -10,6 +10,7 @@ class Base(db.Model):
     __abstract__ = True
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default= datetime.utcnow,onupdate = datetime.utcnow)
+ 
 #多对多中间关系表
 user_job =db.Table(
             'user_job',
@@ -76,21 +77,21 @@ class Job(Base):
     def __repr__(self):
         return '<Job {}>'.format(self.name)
 
-    class Dilevery(Base):
-        __tablename__ = 'delivery'
-        #等待企业审核
-        STATUS_WAITING = 1
-        #被拒绝
-        STATUS_REJECT=2
-        #被接受，等待通知面试
-        STATUS_ACCEPT =3
-        
-        id = db.Column(db.Integer,primary_key=True)
-        job_id = db.Column(db.Integer,db.ForeignKey('job.id',ondelete='SET NULL'))
-        user_id = db.Column(db.Integer,db.ForeignKey('user.id',ondelete='SET NULL'))
-        status = db.Column(db.SmallInteger,default=STATUS_WAITING)
-        #企业回应
-        response = db.Column(db.String(256))
+class Dilevery(Base):
+    __tablename__ = 'delivery'
+    #等待企业审核
+    STATUS_WAITING = 1
+    #被拒绝
+    STATUS_REJECT=2
+    #被接受，等待通知面试
+    STATUS_ACCEPT =3
+
+    id = db.Column(db.Integer,primary_key=True)
+    job_id = db.Column(db.Integer,db.ForeignKey('job.id',ondelete='SET NULL'))
+    user_id = db.Column(db.Integer,db.ForeignKey('user.id',ondelete='SET NULL'))
+    status = db.Column(db.SmallInteger,default=STATUS_WAITING)
+    #企业回应
+    response = db.Column(db.String(256))
 
         
 
