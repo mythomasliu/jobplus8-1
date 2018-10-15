@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8">
@@ -7,20 +10,21 @@
 
     <title>{% block title %}{% endblock %}</title>
 
-    {#设置了css模块#}
-    {% block css %}
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    {#设置了css样式表模块#}
+    {% block styles %}{{ super() }}
       <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
     {% endblock %}
 
 
   </head>
-  <body>
+
+
+    {% block navbar %}
     <nav class="navbar navbar-inverse">
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Jobplus</a>
+          <a class="navbar-brand" href="/">Jobplus</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -48,18 +52,39 @@
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
+{% endblock %}
 
-    {% block body %}
+
+
+
+
+    {% block content %}
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category,message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% endif %}
+          {% endwith %}
+
+
+    {% block index_content %}{% endblock %}
+    {% block page_content %}{% endblock %}
+    {% block admin_index %}{% endblock %}
+    {% block company_index %}{% endblock %}
+    {% block user_index %}{% endblock %}
+    {% block job_index %}{% endblock %}
     {% endblock %}
 
     {% block footer %}<footer>&copy; Copyright 2018 by <a href="http://www.shiyanlou.com/">shiyalou</a></footer>{% endblock %}
 
-  </body>
 
   {# 设置了js 模块 #}
-  {% block js %}
-    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+  {% block tail_js %}{{ super() }}
     <script type="text/javascript" src="{{url_for('static', filename='main.js')}}"></script>
   {% endblock %}
 
