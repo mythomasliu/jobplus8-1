@@ -34,17 +34,18 @@
             <li><a href="{{ url_for('company.company_index')}} ">公司</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-          {% if True %}
-            <li><a href="#">用户注册</a></li>
-            <li><a href="#">企业注册</a></li>
+          {% if not current_user.is_authenticated %}
+          
+            <li><a href="{{ url_for('front.user_register')}}">用户注册</a></li>
+            <li><a href="{{ url_for('front.company_register')}}">企业注册</a></li>
             <li><a href="{{ url_for('front.login') }}">登录</a></li>
           {% else %}
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户名字<span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ current_user.username }}<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="#">我的主页</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="#">退出登录</a></li>
+                <li><a href="{{ url_for('front.logout') }}">退出登录</a></li>
               </ul>
             </li>
           {% endif %}
@@ -70,7 +71,7 @@
             {% endfor %}
             {% endif %}
           {% endwith %}
-
+        <div class="container">
 
     {% block index_content %}{% endblock %}
     {% block page_content %}{% endblock %}
@@ -78,9 +79,17 @@
     {% block company_index %}{% endblock %}
     {% block user_index %}{% endblock %}
     {% block job_index %}{% endblock %}
+
+
+    <div class="footer">
+    &copy; Copyright 2018 by <a href="http://www.shiyanlou.com/">shiyalou</a>
+    </div>
+
+        </div>
     {% endblock %}
 
-    {% block footer %}<footer>&copy; Copyright 2018 by <a href="http://www.shiyanlou.com/">shiyalou</a></footer>{% endblock %}
+   
+   
 
 
   {# 设置了js 模块 #}
