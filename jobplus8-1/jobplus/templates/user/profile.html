@@ -3,7 +3,10 @@
 {% block title %}个人信息修改{% endblock %}
 
 {% block user_index %}
-<h1>
-登陆用户邮箱：{{ user.email}}
-</h1>
+{{ super() }}
+<div style="width:400px;margin:0 auto;">
+<h1>{{user.username}},欢迎您！</h1>
+<h3>用户资料修改</h3>
+{{ wtf.quick_form(form) }}
+</div>
 {% endblock %}

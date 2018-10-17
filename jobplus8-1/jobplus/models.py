@@ -3,8 +3,6 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash,check_password_hash
 
-
-
 db = SQLAlchemy()
 
 class Base(db.Model):
@@ -31,7 +29,7 @@ class User(Base,UserMixin):
     email = db.Column(db.String(64),unique=True,index=True,nullable=False)
     role = db.Column(db.SmallInteger,default=ROLE_EMPLOYEE)
     _password = db.Column('password',db.String(256),nullable=False)
-    phonenumber = db.Column(db.Integer)
+    phonenumber = db.Column(db.Text)
     work_experience = db.Column(db.SmallInteger)
     jobs = db.relationship('Job',secondary=user_job)
     upload_resume_url =db.Column(db.String(64))
