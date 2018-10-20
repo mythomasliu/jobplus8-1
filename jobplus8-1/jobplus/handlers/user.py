@@ -1,6 +1,6 @@
 
 from flask import Blueprint ,render_template,redirect,url_for,flash
-from flask_login import login_user,login_required
+from flask_login import login_user,login_required,current_user
 from jobplus.models import db,User
 from jobplus.forms import LoginForm,RegisterForm,UserProfileForm
 
@@ -11,10 +11,11 @@ def user_index():
     return render_template('user/index.html')
 
 
-@user.route('/profile/<int:user_id>',methods=['GET','POST'])
+@user.route('/profile',methods=['GET','POST'])
 @login_required
-def user_profile(user_id):
-    user = User.query.filter_by(id=user_id).first()
+
+def user_profile():
+    user = User.query.filter_by(id=current_user.id).first()
     form = UserProfileForm(obj=user,id=user.id)
     if form.validate_on_submit():
         form.Profile_update(user)
@@ -22,5 +23,3 @@ def user_profile(user_id):
         return redirect(url_for('front.index'))
     return render_template('user/profile.html',form=form,user=user)
   
-
-
