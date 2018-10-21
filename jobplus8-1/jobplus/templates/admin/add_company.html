@@ -1,0 +1,10 @@
+
+{% extends "admin/admin_base.html" %}
+
+{% block admin %}
+{{ super() }}
+<div style="width:400px;margin:0 auto;">
+<h4>添加公司</h4>
+{{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

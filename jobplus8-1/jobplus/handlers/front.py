@@ -32,7 +32,11 @@ def login():
             else:
                 login_user(user,form.remember_me.data)
                 flash('登陆成功,欢迎您的到来','success')
-                return redirect(url_for('user.user_profile'))
+                if user.name:
+                    return redirect(url_for('.index'))
+                else:
+                    return redirect(url_for('user.user_profile'))
+
         return render_template('404.html'),404
     return render_template('login.html',form = form)
 

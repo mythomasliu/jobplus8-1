@@ -4,8 +4,11 @@
 {% block title %}公司信息修改{% endblock %}
 
 {% block user_index %}
-<h1>
-公司名称：{{ user.username }}
-公司登陆用户邮箱：{{ user.email}}
-</h1>
+{{ super() }}
+<div style="width:400px;margin:0 auto;">
+<h1>{{current_user.username}},欢迎您！</h1>
+<h3>公司资料修改</h3>
+{{ wtf.quick_form(form) }}
+</div>
+
 {% endblock %}
