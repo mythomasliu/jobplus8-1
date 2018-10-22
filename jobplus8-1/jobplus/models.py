@@ -40,12 +40,12 @@ class User(Base,UserMixin):
     role = db.Column(db.SmallInteger,default=USER)#权限，默认为用户
     _password = db.Column('password',db.String(256),nullable=False)#密码
     phonenumber = db.Column(db.Text)#手机号
-    work_experience = db.Column(db.SmallInteger)#工作年限时长  
+    work_experience = db.Column(db.SmallInteger)#工作年限时长
     upload_resume_url =db.Column(db.String(64))#个人简历url
     is_disable = db.Column(db.Boolean,default=False)#用户是是否禁用标示
     companys = db.relationship('Company',uselist=False)#公司的链接关系口
     jobs = db.relationship('Job',secondary=user_job)#工作的链接关系口
-    
+
     def __repr__(self):#调试打印
         return '<User:{}>'.format(self.username)
 
@@ -79,14 +79,13 @@ class Job(Base):
     __tablename__ = 'job'
 
     id = db.Column(db.Integer,primary_key=True,nullable=False)#id自增
-    jobname = db.Column(db.String(32),unique=True,nullable=False)#工作名称，岗位名称
+    jobname = db.Column(db.String(32),nullable=False)#工作名称，岗位名称
     description = db.Column(db.String(128))#职位描述
     experience_requirement = db.Column(db.String(32))#工作能力和经验要求
     degree_requirement = db.Column(db.String(32))#学历要求
     lowest_salary = db.Column(db.Integer)#最低薪酬
     highest_salary = db.Column(db.Integer)#最高薪酬
     location = db.Column(db.String(24))#工作地点
-    education = db.Column(db.String(32))#受教育程度
     job_label = db.Column(db.String(128))#职位标签，标签用逗号隔开
     is_fulltime = db.Column(db.Boolean,default=True)#是否全职、兼职等
     is_open = db.Column(db.Boolean,default=True)#职位是否开放或者关闭状态
@@ -94,7 +93,6 @@ class Job(Base):
     company_id = db.Column(db.Integer,db.ForeignKey('company.id',ondelete='CASCADE'))
     company = db.relationship('Company',uselist=False,backref=db.backref('job',lazy='dynamic'))
 
-    
 
     def __repr__(self):
         return '<Job {}>'.format(self.name)
@@ -117,11 +115,11 @@ class Dilevery(Base):
     job_id = db.Column(db.Integer,db.ForeignKey('job.id',ondelete='SET NULL'))#工作id，默认为空
     user_id = db.Column(db.Integer,db.ForeignKey('user.id',ondelete='SET NULL'))#用户id，默认为空
     status = db.Column(db.SmallInteger,default=STATUS_WAITING)#投递状态，默认为等待企业审核
-    
+
     response = db.Column(db.String(256))#企业回应数据
 
 
-        
+
 
 #公司与用户id是一对一的关系
 class Company(Base):
@@ -129,12 +127,11 @@ class Company(Base):
     __tablename__ = 'company'
 
     id = db.Column(db.Integer,primary_key=True)
-
-
-    url = db.Column(db.String(512),nullable=False)#公司网址
-    logo = db.Column(db.String(512))#公司logo
+    #name = db.Column(db.String(64), nullable=False, index=True, unique=True)
+    url = db.Column(db.String(32),nullable=False)#公司网址
+    logo = db.Column(db.String(128))#公司logo
     about = db.Column(db.String(1024),nullable=False)#公司详情
-    #description = db.Column(db.String(24))#不知道有啥用
+    description = db.Column(db.String(24))#一句话描述
     location = db.Column(db.String(64))#公司地址
 
     phone = db.Column(db.Text)#公司电话
@@ -147,10 +144,8 @@ class Company(Base):
     financing = db.Column(db.String(32))#好处大大的
 
     user_id = db.Column(db.Integer,db.ForeignKey('user.id',ondelete='SET NULL'))
- 
+
     user = db.relationship('User',uselist=False,backref=db.backref('company',uselist=False))
-    
+
     def __repr__(self):
         return '<Company {}>'.format(self.id)
-
-    

@@ -1,7 +1,7 @@
-flask 
-flask-sqlalchemy 
-mysqlclient 
-flask-migrate 
-flask-wtf 
+flask
+flask-sqlalchemy
+mysqlclient
+flask-migrate
+flask-wtf
 flask-login
 flask-bootstrap
