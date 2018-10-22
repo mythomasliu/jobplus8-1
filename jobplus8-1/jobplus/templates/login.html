@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}登录{% endblock %}
+
+
+{% block page_content %}
+{{ super() }}
+<div style="width:400px;margin:0 auto;">
+<h1>登录</h1>
+{{ wtf.quick_form(form) }}
+</div>
+{% endblock %}
+

@@ -1,0 +1,52 @@
+{% extends "admin/admin_base.html" %}
+{% from "_macros.html" import render_pagination %}
+
+{% block title %}
+管理员-职位管理
+{% endblock %}
+
+
+
+{% block admin %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>职  位ID</th>
+            <th>职位名称</th>
+            <th>企业名称</th>
+            <th>发布时间</th>
+            <th>状  态</th>
+            <th>操  作</th>
+        </tr>
+        <tbody>
+            {% for job in pagination.items %}
+            <tr>
+                <td>{{ job.id }}</td>
+                <td>{{ job.jobname }}</td>
+                <td>{{ job.company.user.username }}</td>
+                <td>{{ job.updated_at }}</td>
+                <td>{% if job.is_open %}上线{% else %}下线{% endif %}</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="
+                            {% if job.is_open %}
+                                {{ url_for('admin.job_action', job_id=job.id, action='disable') }}
+                            {% else %}
+                                {{ url_for('admin.job_action', job_id=job.id, action='enable') }}
+                            {% endif %}" type="button" class="btn-defalut" title="{% if job.is_open %}下线{% else %}上线{% endif %}">
+                            {% if not job.is_open %}
+                            <span class="glyphicon glyphicon-arrow-up" title="上线" aria-hidden="true"></span>
+                            {% else %}
+                            <span class="glyphicon glyphicon-arrow-down" title="下线" aria-hidden="true"></span>
+                            {% endif %}
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </thead>
+</table>
+
+{{ render_pagination(pagination, 'admin.jobs')}}
+{% endblock %}

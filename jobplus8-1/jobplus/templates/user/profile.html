@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}个人信息修改{% endblock %}
+
+{% block user_index %}
+{{ super() }}
+<div style="width:400px;margin:0 auto;">
+<h1>{{user.username}},欢迎您！</h1>
+<h3>用户资料修改</h3>
+{{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

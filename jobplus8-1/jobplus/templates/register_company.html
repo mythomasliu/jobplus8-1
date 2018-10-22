@@ -1,0 +1,13 @@
+
+{% extends 'base.html' %}
+
+{% block title %}公司注册{% endblock %}
+
+
+{% block page_content %}
+{{ super() }}
+<div style="width:400px;margin:0 auto;">
+<h1>公司注册</h1>
+{{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

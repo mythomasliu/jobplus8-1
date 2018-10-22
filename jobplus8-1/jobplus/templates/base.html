@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    {#设置了css样式表模块#}
+    {% block styles %}{{ super() }}
+      <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    {% endblock %}
+
+
+  </head>
+
+
+    {% block navbar %}
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Jobplus</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class=""><a href="  {{url_for('job.job_index')}} ">职位 <span class="sr-only">(current)</span></a></li>
+            <li><a href="{{ url_for('company.company_index')}} ">公司</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          {% if not current_user.is_authenticated %}
+          
+            <li><a href="{{ url_for('front.user_register')}}">用户注册</a></li>
+            <li><a href="{{ url_for('front.company_register')}}">企业注册</a></li>
+            <li><a href="{{ url_for('front.login') }}">登录</a></li>
+          {% else %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ current_user.username }}<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">我的主页</a></li>
+                {% if current_user.is_user %}
+                <li role="separator" class="divider"></li>
+                <li><a href="{{ url_for('user.user_profile')}}">资料修改</a></li>
+                {% elif current_user.is_company %}
+                <li role="separator" class="divider"></li>
+                <li><a href="{{ url_for('company.profile')}}">资料修改</a></li>
+                {% endif %}
+                <li role="separator" class="divider"></li>
+                <li><a href="{{ url_for('front.logout') }}">退出登录</a></li>
+              </ul>
+            </li>
+          {% endif %}
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+{% endblock %}
+
+
+
+
+
+    {% block content %}
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category,message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% endif %}
+          {% endwith %}
+        <div class="container">
+
+    {% block index_content %}{% endblock %}
+    {% block page_content %}{% endblock %}
+    {% block admin_index %}{% endblock %}
+    {% block company_index %}{% endblock %}
+    {% block user_index %}{% endblock %}
+    {% block job_index %}{% endblock %}
+
+
+    <div class="footer">
+    &copy; Copyright 2018 by <a href="http://www.shiyanlou.com/">shiyalou</a>
+    </div>
+
+        </div>
+    {% endblock %}
+
+   
+   
+
+
+  {# 设置了js 模块 #}
+  {% block tail_js %}{{ super() }}
+    <script type="text/javascript" src="{{url_for('static', filename='main.js')}}"></script>
+  {% endblock %}
+
+</html>

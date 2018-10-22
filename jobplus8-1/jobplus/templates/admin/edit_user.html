@@ -1,0 +1,10 @@
+{% extends "admin/admin_base.html" %}
+
+{% block title %}管理员--个人信息修改{% endblock %}
+
+{% block admin %}
+<div style="width:400px;margin:0 auto;">
+<h3>管理员--用户资料修改</h3>
+{{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

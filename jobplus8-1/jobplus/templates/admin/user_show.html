@@ -1,0 +1,53 @@
+{% extends "admin/admin_base.html" %}
+{% from "_macros.html" import render_pagination %}
+
+{% block title %}用户管理{% endblock %}
+
+
+{% block admin %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>用户ID</th>
+            <th>姓  名</th>
+            <th>邮  箱</th>
+            <th>手机号</th>
+            <th>公司名称</th>
+            <th>公司网站</th>
+            <th>用户类型</th>
+            <th>用户状态</th>
+            <th>操  作</th>
+        </tr>
+        <tbody>
+            {% for user in pagination.items %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phonenumber }}</td>
+                <td>{% if user.is_company %}{{ user.username }}{% else %}{% endif %}</td>
+                <td>{% if user.is_company %}{{ user.company.url }}{% else %}{% endif %}</td>
+                <td>{% if user.is_admin %}管理员{% elif user.is_company %}公司{% else %}求职者{% endif %}</td>
+                <td>{% if user.is_disable %}禁用{% else %}启用{% endif %}</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="{% if user.is_company %}{{ url_for('admin.editcompany', company_id=user.id) }}{% else %}{{ url_for('admin.edituser', user_id=user.id) }}{% endif %}" type="button" class="btn-defalut" title="编辑">
+                            <span class="glyphicon glyphicon-pencil" title="编辑" aria-hidden="true"></span>
+                        </a>
+                        <a href="{% if user.is_disable %}{{ url_for('admin.user_action',user_id=user.id,action='enable') }}{% else %}{{ url_for('admin.user_action',user_id=user.id,action='disable') }}{% endif %}" type="button" class="btn-defalut" title="{% if user.is_disable %}启用{% else %}禁用{% endif %}">
+                            {% if user.is_disable %}
+                            <span class="glyphicon glyphicon-ok-circle" title="启用" aria-hidden="true"></span>
+                            {% else %}
+                            <span class="glyphicon glyphicon-ban-circle" title="禁用" aria-hidden="true"></span>
+                            {% endif %}
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </thead>
+</table>
+
+{{ render_pagination(pagination, 'admin.users')}}
+{% endblock %}
