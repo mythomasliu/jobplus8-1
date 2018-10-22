@@ -32,6 +32,9 @@
           <ul class="nav navbar-nav">
             <li class=""><a href="  {{url_for('job.job_index')}} ">职位 <span class="sr-only">(current)</span></a></li>
             <li><a href="{{ url_for('company.company_index')}} ">公司</a></li>
+            {% if current_user.is_admin %}
+            <li><a href='{{ url_for('admin.index') }}'>管理</a></li>
+            {% endif %}
           </ul>
           <ul class="nav navbar-nav navbar-right">
           {% if not current_user.is_authenticated %}
@@ -78,7 +81,7 @@
             {% endfor %}
             {% endif %}
           {% endwith %}
-        <div class="container">
+
 
     {% block index_content %}{% endblock %}
     {% block page_content %}{% endblock %}
@@ -92,7 +95,6 @@
     &copy; Copyright 2018 by <a href="http://www.shiyanlou.com/">shiyalou</a>
     </div>
 
-        </div>
     {% endblock %}
 
    

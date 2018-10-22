@@ -131,7 +131,7 @@ class Company(Base):
     logo = db.Column(db.String(512))#公司logo
 
     about = db.Column(db.String(1024),nullable=False)#公司详情
-    #description = db.Column(db.String(24))#不知道有啥用
+    description = db.Column(db.String(24))#不知道有啥用
     location = db.Column(db.String(64))#公司地址
 
     phone = db.Column(db.Text)#公司电话
