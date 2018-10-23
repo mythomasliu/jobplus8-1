@@ -13,7 +13,6 @@ def company_index():
 
 
 
-
 @company.route('/profile',methods=['GET','POST'])
 @company_required
 def profile():

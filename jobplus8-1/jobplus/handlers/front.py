@@ -1,11 +1,14 @@
 from flask import Blueprint ,render_template,flash,redirect,url_for
 from flask_login import login_user,login_required,logout_user
 from jobplus.forms import LoginForm,RegisterForm
+
 from jobplus.models import db,User,Company,Job
+
 
 front = Blueprint('front', __name__)
 @front.route('/')
 def index():
+
     company_page = 1
     company_pagination = Company.query.order_by(Company.created_at.desc()).paginate(
             page = company_page,
@@ -20,7 +23,6 @@ def index():
             error_out=False
             )
     return render_template('index.html',company_pagination=company_pagination,job_pagination=job_pagination)
-    return render_template('index.html')
 
 #用户登录路由
 @front.route('/login',methods=['GET','POST'])
@@ -50,6 +52,7 @@ def login():
                     return redirect(url_for('.index'))
                 else:
                     return redirect(url_for('user.user_profile'))
+
         return render_template('404.html'),404
     return render_template('login.html',form = form)
 
