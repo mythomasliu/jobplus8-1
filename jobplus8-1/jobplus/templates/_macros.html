@@ -3,18 +3,78 @@
 <nav class="nav-pagination" aria-label="Page navigation">
     <ul class=pagination>
     <li{% if not pagination.has_prev %} class="disabled"{% endif %}><a href="{{url_for(endpoint, page=pagination.prev_num) if pagination.has_prev else '#'}}">&laquo;</a></li>
-    {% for page in pagination.iter_pages() %}
+    {% for page in pagination.iter_pages(left_edge=2,right_edge=2) %}
         {% if page %}
             {% if page != pagination.page %}
             <li><a href="{{ url_for(endpoint, page=page) }}">{{ page }}</a></li>
             {% else %}
             <li class="active"><a href="#">{{page}} <span class="sr-only">(current)</span></a></li>
             {% endif %}
+        {#
         {% else %}
-            <span class=ellipsis>…</span>
+
+            <li class='ellipsis'>…</li>
+        #}
         {% endif %}
+
     {% endfor %}
     <li{% if not pagination.has_next %} class="disabled"{% endif %}><a href="{{url_for(endpoint, page=pagination.next_num) if pagination.has_next else '#'}}">&raquo;</a></li>
     </ul>
 </nav>
+{% endmacro %}
+
+{% macro render_job(job) %}
+
+  <div class="col-sm-6 col-md-4">
+    <div class="job-box">
+        <div class="caption">
+          <a href="">
+          <b> {{job.name}} </b> <span class="timesince">[ {{ job.created_at}} ]</span>
+          <p>{{ job.experience_requirement }} {{ job.degree_requirement }}</p>
+
+            {% for tag in job.job_list %}
+            <span class="label label-default">{{ tag}}</span>
+            {% endfor %}
+          </a>
+        </div>
+        <hr>
+        <div class="media">
+          <div class="media-left">
+            <a href="">
+            <img class="media-object" src="{{job.company.logo}}" alt="..." width="40" height="40">
+            </a>
+            </div>
+            <div class="media-body">
+            <a href="">
+            <h4 class="media-heading">{{job.company.user.username}}</h4>
+            </a>
+            <span class="company-meta">{{ job.company.about}}</span>
+            </div>
+          </div>
+      </div>
+  </div>
+
+
+{% endmacro %}
+
+{% macro render_company(company) %}
+  <div class="col-sm-6 col-md-3 company-item">
+    <div class="job-box">
+      <div class="caption">
+        <a href="">
+          <img src="{{company.logo }}" alt="..." width="90" height="90">
+          <h3>{{company.user.username}}</h3>
+
+        </a>
+        <hr>
+
+        <a href="">
+          <p>在招职位：{{ company.count }}</p>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+
 {% endmacro %}
