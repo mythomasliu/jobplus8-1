@@ -1,88 +1,53 @@
 {% extends 'base.html' %}
+{% from '_macros.html' import render_job, render_company %}
 
 {% block title %}网站主页{% endblock %}
 
-
-{% block index_content %}
-
-<div class='jumbotron'>
-    <div class='container'>
-        <h1>JOBPLUS</h1>
-        <p>领先的互联网、招聘平台</p>
+{% block header %}
+  <div class="jumbotron">
+    <div class="container">
+      <h1>JOBPLUS</h1>
+      <p>领先的互联网求职、招聘平台</p>
     </div>
-</div>
+  </div>
+{% endblock %}
 
+{% block job_index %}
+  <ul class="nav nav-tabs list-title">
+    <li role="presentation" class="active"><a href="#">最新职位</a></li>
+  </ul>
 
-<ul class='nav nav-tabs list-title'>
-<li role='presentation' class='active'><a href='#'>最新职位信息</a></li>
-</ul>
+  <br>
 
-
-<div class='job-list'>
-
-
-    {% for job in job_pagination.items %}
-
-      <div class="col-sm-6 col-md-4">
-        <div class="job-box">
-            <div class="caption">
-            <a href="#">
-              <b>{{ job.jobname }}</b><span class="timesince">[{{ job.updated_at }}]</span>
-              <p>经验{{ job.experience_requirement }} {% if job.experience_requirement != '不限' %}年{% endif %} 学历{{ job.degree_requirement }}</p>
-              <span class='label label-default'>{{ job.company.tags }}</span>
-            </a>
-            </div>
-            <hr>
-            <div class="media">
-              <div class="media-left">
-
-                <a href="#">
-                <img class="media-object" src="{{ job.company.logo }}" width="40" height="40" alt="...">
-                </a>
-                </div>
-                <div class="media-body"><a href="#"><h4 class="media-heading">{{ job.company.user.username }}</h4></a>
-                <span class="company-meta">{{ job.company.location }}/{{ job.company.description }}</span>
-                </div>
-            </div>
-        </div>
-      </div>
-
+  <div class="job-list">
+    {% for job in jobs %}
+      {{ render_job(job) }}
     {% endfor %}
+  </div>
+  <a href="" class="btn"></a>
+  <p class="list-more">
+  <a href="{{ url_for('job.job_index')}}" class="btn btn-success btn-lg list-more-btn">查看更多</a>
+  </p>
 
+{% endblock %}
 
-</div>
-<p class='list-more'>
-<a href='#' class='btn btn-success btn-lg list-more-btn'>查看更多</a>
-</p>
+{% block company_index %}
 
+  <ul class="nav nav-tabs list-title">
+    <li role="presentation" class="active"><a href="#">最新公司</a></li>
+  </ul>
+  <br>
 
-
-
-
-
-<!--导航栏-->
-<div class='row'>
-<ul class='nav nav-tabs list-title'>
-<li role='presentation' class='active'><a href='#'>最新公司信息</a></li>
-</ul>
-<!--公司信息-->
-<div class='newest-company-list'>
-    {% for company in company_pagination.items %}
-        <div class="col-sm-6 col-md-3 company-item">
-            <div class="thumbnail">
-                <a href='#'>
-                    <img src="{{ company.logo }}" width="100" height="100" alt="...">
-                    <h3>{{ company.user.username }}</h3>
-                    <p>总部：{{ company.location }}</p>
-                </a>
-            <hr>
-            <p>在招职位：{{ company.job.count() }}</p>
-            </div>
-       </div>
+  <div class="job-list">
+    {% for company in companies %}
+      {{ render_company(company) }}
     {% endfor %}
-</div>
-</div>
-<p class='list-more text-center'>
-<a href=#' class='btn btn-success btn-lg list-more-btn'>查看更多</a>
+  </div>
+  <a href="" class="btn"></a>
+  <p class="list-more">
+  <a href="{{ url_for('company.company_index')}}" class="btn btn-success btn-lg list-more-btn">查看更多</a>
+  </p>
+
+
 
 {% endblock %}
